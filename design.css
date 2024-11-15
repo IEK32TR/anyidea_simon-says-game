@@ -216,18 +216,37 @@ h1 {
 }
 
 #start-button {
-    padding: 12px 30px;
-    font-size: 1.1rem;
+    padding: 12px 24px;
+    font-size: 1.2rem;
+    font-weight: 600;
     cursor: pointer;
     background-color: #4CAF50;
     color: white;
     border: none;
-    border-radius: 50px;
+    border-radius: 40px;
     transition: background-color 0.3s, transform 0.2s;
     margin-top: 30px;
 }
 
 #start-button:hover {
     background-color: #45a049;
+    transform: scale(1.05);
+}
+
+.back-to-menu-btn {
+    padding: 12px 24px;
+    font-size: 1.2rem;
+    font-weight: 600;
+    cursor: pointer;
+    background-color: #f44336;
+    color: white;
+    border: none;
+    border-radius: 40px;
+    transition: background-color 0.3s, transform 0.2s;
+    margin-top: 30px;
+}
+
+.back-to-menu-btn:hover {
+    background-color: #e53935;
     transform: scale(1.05);
 }

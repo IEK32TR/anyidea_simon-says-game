@@ -31,6 +31,7 @@
 
         <!-- Start Game Button -->
         <button id="start-button">Start Game</button>
+        <button id="back-to-menu-btn" class="back-to-menu-btn">Back to Menu</button>
     </div>
 
     <script src="/socket.io/socket.io.js"></script>
@@ -58,7 +59,7 @@
                 document.getElementById("game-container").style.display = "block"; // Show game UI
                 scoreDisplay.style.display = "block"; // Show score
                 gameButtonsContainer.style.display = "grid"; // Show game buttons
-                usernameDisplay.textContent = `Player: ${username}`; // Display username in game
+                usernameDisplay.textContent = `Player -> ${username}`; // Display username in game
                 startGame(); // Start the game logic
             }
         });
@@ -115,7 +116,7 @@
         function checkUserInput() {
             for (let i = 0; i < userSequence.length; i++) {
                 if (userSequence[i] !== sequence[i]) {
-                    alert("Game Over! Your score: " + score);
+                    alert("Your score: " + score);
                     // POST the score to the server when the game ends
                     saveScore(username, score);
                     startGame();
@@ -146,6 +147,16 @@
                 }
             });
         }
+
+        const backToMenuButton = document.getElementById('back-to-menu-btn');
+        
+        // Event listener for the "Back to Menu" button
+        if (backToMenuButton) {
+            backToMenuButton.addEventListener('click', () => {
+                location.reload(); // Reload the page to go back to the username input part
+            });
+        }
+
     </script>
 </body>
 </html>

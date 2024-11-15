@@ -23,7 +23,7 @@ app.get('/leaderboard', (req, res) => {
 // Save score API
 app.post('/save-score', (req, res) => {
     const { username, score } = req.body;
-    if (score >= 2) { // Modify this rule if needed
+    if (score >= 7) { // Modify this rule if needed
         leaderboard.push({ username, score });
         leaderboard.sort((a, b) => b.score - a.score); // Sort leaderboard
     }

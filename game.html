@@ -22,6 +22,7 @@
             <div class="game-button" id="yellow"></div>
         </div>
         <button id="start-button">Start Game</button>
+        <button id="leaderboard-btn">Leaderboard</button> <!-- Added leaderboard button -->
     </div>
 
     <script src="/socket.io/socket.io.js"></script>
@@ -38,6 +39,7 @@
         const gameButtons = document.querySelectorAll(".game-button");
         const scoreDisplay = document.getElementById("score");
         const gameButtonsContainer = document.getElementById("game-buttons");
+        const leaderboardButton = document.getElementById("leaderboard-btn");  // Leaderboard button
 
         // Show game UI after entering username
         startUsernameButton.addEventListener("click", () => {
@@ -60,6 +62,11 @@
                 flashButton(color);
                 checkUserInput();
             });
+        });
+
+        // Leaderboard button functionality
+        leaderboardButton.addEventListener("click", () => {
+            window.location.href = '/leaderboard'; // Redirect to leaderboard page
         });
 
         function startGame() {
@@ -99,6 +106,8 @@
             for (let i = 0; i < userSequence.length; i++) {
                 if (userSequence[i] !== sequence[i]) {
                     alert("Game Over! Your score: " + score);
+                    // POST the score to the server when the game ends
+                    saveScore(username, score);
                     startGame();
                     return;
                 }
@@ -109,6 +118,23 @@
                 scoreDisplay.textContent = `Score: ${score}`;
                 setTimeout(nextRound, 1000);
             }
+        }
+
+        // Send the username and score to the server to save the score
+        function saveScore(username, score) {
+            fetch('/save-score', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ username, score })
+            }).then(response => {
+                if (response.ok) {
+                    console.log('Score saved successfully!');
+                } else {
+                    console.log('Error saving score');
+                }
+            });
         }
     </script>
 </body>

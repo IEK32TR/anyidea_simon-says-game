@@ -87,3 +87,22 @@ body {
 #yellow {
     background-color: yellow;
 }
+
+/* Leaderboard button styling */
+#leaderboard-btn {
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    padding: 10px 20px;
+    font-size: 1rem;
+    cursor: pointer;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+#leaderboard-btn:hover {
+    background-color: #45a049;
+}

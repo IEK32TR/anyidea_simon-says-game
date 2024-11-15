@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Leaderboard</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="design.css">
 </head>
 <body>
     <div id="leaderboard-container">
@@ -15,17 +15,19 @@
     </div>
 
     <script>
-        // Fetch leaderboard data
-        fetch('/leaderboard')
+        // Fetch leaderboard data from the server
+        fetch('/leaderboard-data')
             .then(response => response.json())
             .then(data => {
                 const leaderboard = document.getElementById('leaderboard');
+                // Loop through the leaderboard data and append each player
                 data.forEach(player => {
                     const li = document.createElement('li');
                     li.textContent = `${player.username}: ${player.score}`;
                     leaderboard.appendChild(li);
                 });
-            });
+            })
+            .catch(err => console.error('Error loading leaderboard data:', err));
     </script>
 </body>
 </html>

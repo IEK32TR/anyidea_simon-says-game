@@ -28,7 +28,7 @@ app.get('/leaderboard', (req, res) => {
 // Save score when a user finishes the game
 app.post('/save-score', (req, res) => {
     const { username, score } = req.body;
-    if (score >= 8) {
+    if (score >= 4) { // You can change the condition based on your game rules
         leaderboard.push({ username, score });
         leaderboard.sort((a, b) => b.score - a.score); // Sort leaderboard by score (highest first)
     }

@@ -6,36 +6,31 @@ const app = express();
 const server = http.createServer(app);
 const io = new Server(server);
 
-// Store leaderboard data in memory (could be replaced with a database)
-let leaderboard = [];
+let leaderboard = [];  // Store leaderboard data in memory
 
-// Serve static files (HTML, CSS, JS)
 app.use(express.static(path.join(__dirname)));
+app.use(express.json()); // For parsing JSON request bodies
 
-// Parse JSON request bodies
-app.use(express.json());
-
-// Serve index.html when accessing the root URL
+// Serve game and leaderboard pages
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'game.html'));
 });
 
-// Serve leaderboard page
 app.get('/leaderboard', (req, res) => {
     res.sendFile(path.join(__dirname, 'leaderboard.html'));
 });
 
-// Save score when a user finishes the game
+// Save score API
 app.post('/save-score', (req, res) => {
     const { username, score } = req.body;
-    if (score >= 4) { // You can change the condition based on your game rules
+    if (score >= 2) { // Modify this rule if needed
         leaderboard.push({ username, score });
-        leaderboard.sort((a, b) => b.score - a.score); // Sort leaderboard by score (highest first)
+        leaderboard.sort((a, b) => b.score - a.score); // Sort leaderboard
     }
     res.status(200).send();
 });
 
-// Fetch leaderboard data
+// API to fetch leaderboard data
 app.get('/leaderboard-data', (req, res) => {
     res.json(leaderboard);
 });

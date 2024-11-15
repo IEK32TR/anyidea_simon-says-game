@@ -10,19 +10,27 @@
     <div id="username-container">
         <label for="username">Enter your name:</label>
         <input type="text" id="username" placeholder="Username" />
-        <button id="start-username-btn">Start Game</button>
+        <button id="start-username-btn">Submit</button>
+        <button id="leaderboard-btn">Leaderboard</button> <!-- Leaderboard button moved here -->
     </div>
 
     <div id="game-container" style="display: none;">
-        <div id="score" style="display: none;">Score: 0</div>
+        <!-- Game Header Section (Username and Score) -->
+        <div id="game-header">
+            <div id="username-display"></div> <!-- Username display -->
+            <div id="score">Score: 0</div> <!-- Score display -->
+        </div>
+
+        <!-- Game Buttons -->
         <div id="game-buttons" style="display: none;">
             <div class="game-button" id="red"></div>
             <div class="game-button" id="green"></div>
             <div class="game-button" id="blue"></div>
             <div class="game-button" id="yellow"></div>
         </div>
+
+        <!-- Start Game Button -->
         <button id="start-button">Start Game</button>
-        <button id="leaderboard-btn">Leaderboard</button> <!-- Added leaderboard button -->
     </div>
 
     <script src="/socket.io/socket.io.js"></script>
@@ -38,8 +46,9 @@
         const startButton = document.getElementById("start-button");
         const gameButtons = document.querySelectorAll(".game-button");
         const scoreDisplay = document.getElementById("score");
+        const usernameDisplay = document.getElementById("username-display"); // Username display
         const gameButtonsContainer = document.getElementById("game-buttons");
-        const leaderboardButton = document.getElementById("leaderboard-btn");  // Leaderboard button
+        const leaderboardButton = document.getElementById("leaderboard-btn");
 
         // Show game UI after entering username
         startUsernameButton.addEventListener("click", () => {
@@ -49,6 +58,7 @@
                 document.getElementById("game-container").style.display = "block"; // Show game UI
                 scoreDisplay.style.display = "block"; // Show score
                 gameButtonsContainer.style.display = "grid"; // Show game buttons
+                usernameDisplay.textContent = `Player: ${username}`; // Display username in game
                 startGame(); // Start the game logic
             }
         });

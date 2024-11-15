@@ -15,19 +15,29 @@
     </div>
 
     <script>
-        // Fetch leaderboard data from the server
-        fetch('/leaderboard-data')
-            .then(response => response.json())
-            .then(data => {
-                const leaderboard = document.getElementById('leaderboard');
-                // Loop through the leaderboard data and append each player
-                data.forEach(player => {
-                    const li = document.createElement('li');
-                    li.textContent = `${player.username}: ${player.score}`;
-                    leaderboard.appendChild(li);
-                });
-            })
-            .catch(err => console.error('Error loading leaderboard data:', err));
+        // Function to load leaderboard data and refresh the list
+        function loadLeaderboard() {
+            fetch('/leaderboard-data')
+                .then(response => response.json())
+                .then(data => {
+                    const leaderboard = document.getElementById('leaderboard');
+                    leaderboard.innerHTML = '';  // Clear the current leaderboard
+
+                    // Loop through the leaderboard data and append each player
+                    data.forEach(player => {
+                        const li = document.createElement('li');
+                        li.textContent = `${player.username}: ${player.score}`;
+                        leaderboard.appendChild(li);
+                    });
+                })
+                .catch(err => console.error('Error loading leaderboard data:', err));
+        }
+
+        // Load leaderboard data when the page is loaded
+        window.onload = loadLeaderboard;
+
+        // Optionally, set an interval to reload leaderboard data every few seconds
+        // setInterval(loadLeaderboard, 5000); // Uncomment to reload every 5 seconds
     </script>
 </body>
 </html>

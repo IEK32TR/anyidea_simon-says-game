@@ -7,9 +7,15 @@
     <link rel="stylesheet" href="design.css">
 </head>
 <body>
-    <div id="game-container">
-        <div id="score">Score: 0</div>
-        <div id="game-buttons">
+    <div id="username-container">
+        <label for="username">Enter your name:</label>
+        <input type="text" id="username" placeholder="Username" />
+        <button id="start-username-btn">Start Game</button>
+    </div>
+
+    <div id="game-container" style="display: none;">
+        <div id="score" style="display: none;">Score: 0</div>
+        <div id="game-buttons" style="display: none;">
             <div class="game-button" id="red"></div>
             <div class="game-button" id="green"></div>
             <div class="game-button" id="blue"></div>
@@ -18,15 +24,32 @@
         <button id="start-button">Start Game</button>
     </div>
 
+    <script src="/socket.io/socket.io.js"></script>
     <script>
         const colors = ["red", "green", "blue", "yellow"];
         let sequence = [];
         let userSequence = [];
         let score = 0;
+        let username = '';  // Store the entered username
 
-        const gameButtons = document.querySelectorAll(".game-button");
+        const usernameInput = document.getElementById("username");
+        const startUsernameButton = document.getElementById("start-username-btn");
         const startButton = document.getElementById("start-button");
+        const gameButtons = document.querySelectorAll(".game-button");
         const scoreDisplay = document.getElementById("score");
+        const gameButtonsContainer = document.getElementById("game-buttons");
+
+        // Show game UI after entering username
+        startUsernameButton.addEventListener("click", () => {
+            username = usernameInput.value.trim();
+            if (username) {
+                document.getElementById("username-container").style.display = "none"; // Hide username form
+                document.getElementById("game-container").style.display = "block"; // Show game UI
+                scoreDisplay.style.display = "block"; // Show score
+                gameButtonsContainer.style.display = "grid"; // Show game buttons
+                startGame(); // Start the game logic
+            }
+        });
 
         startButton.addEventListener("click", startGame);
 
@@ -40,7 +63,6 @@
         });
 
         function startGame() {
-            console.log("Start Game Clicked");  // Debugging line
             sequence = [];
             userSequence = [];
             score = 0;
@@ -52,7 +74,6 @@
             userSequence = [];
             const nextColor = colors[Math.floor(Math.random() * colors.length)];
             sequence.push(nextColor);
-            console.log("New Round: " + nextColor); // Debugging line
             playSequence();
         }
 

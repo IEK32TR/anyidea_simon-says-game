@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simon Says Game</title>
+    <link rel="stylesheet" href="design.css">
+</head>
+<body>
+    <div id="game-container">
+        <div id="score">Score: 0</div>
+        <div id="game-buttons">
+            <div class="game-button" id="red"></div>
+            <div class="game-button" id="green"></div>
+            <div class="game-button" id="blue"></div>
+            <div class="game-button" id="yellow"></div>
+        </div>
+        <button id="start-button">Start Game</button>
+    </div>
+
+    <script>
+        const colors = ["red", "green", "blue", "yellow"];
+        let sequence = [];
+        let userSequence = [];
+        let score = 0;
+
+        const gameButtons = document.querySelectorAll(".game-button");
+        const startButton = document.getElementById("start-button");
+        const scoreDisplay = document.getElementById("score");
+
+        startButton.addEventListener("click", startGame);
+
+        gameButtons.forEach(button => {
+            button.addEventListener("click", (e) => {
+                const color = e.target.id;
+                userSequence.push(color);
+                flashButton(color);
+                checkUserInput();
+            });
+        });
+
+        function startGame() {
+            console.log("Start Game Clicked");  // Debugging line
+            sequence = [];
+            userSequence = [];
+            score = 0;
+            scoreDisplay.textContent = `Score: ${score}`;
+            nextRound();
+        }
+
+        function nextRound() {
+            userSequence = [];
+            const nextColor = colors[Math.floor(Math.random() * colors.length)];
+            sequence.push(nextColor);
+            console.log("New Round: " + nextColor); // Debugging line
+            playSequence();
+        }
+
+        function playSequence() {
+            let delay = 0;
+            sequence.forEach((color, index) => {
+                setTimeout(() => {
+                    flashButton(color);
+                }, delay);
+                delay += 600; // Control speed of sequence playback
+            });
+        }
+
+        function flashButton(color) {
+            const button = document.getElementById(color);
+            button.style.opacity = "0.5";
+            setTimeout(() => {
+                button.style.opacity = "1";
+            }, 300);
+        }
+
+        function checkUserInput() {
+            for (let i = 0; i < userSequence.length; i++) {
+                if (userSequence[i] !== sequence[i]) {
+                    alert("Game Over! Your score: " + score);
+                    startGame();
+                    return;
+                }
+            }
+
+            if (userSequence.length === sequence.length) {
+                score++;
+                scoreDisplay.textContent = `Score: ${score}`;
+                setTimeout(nextRound, 1000);
+            }
+        }
+    </script>
+</body>
+</html>

@@ -24,7 +24,7 @@
                     leaderboard.innerHTML = '';  // Clear the current leaderboard
 
                     // Loop through the leaderboard data and append each player
-                    data.forEach(player => {
+                    data.filter(item => item.score > 5).sort((a, b) => b.score - a.score).forEach(player => {
                         const li = document.createElement('li');
                         li.textContent = `${player.username}: ${player.score}`;
                         leaderboard.appendChild(li);
